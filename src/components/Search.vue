@@ -155,17 +155,69 @@ export default {
     },
     watch: {
         key_words: function () {
-            this.inputValue = '';
-            if (this.selected != 'All Types' && this.owner != 'Anyone' && this.started && this.in_trash) {
-                this.inputValue = this.inputValue + "type: " + this.selected + " owner:" + this.owner + " is:started is:in trash " + this.key_words;
-            } else if (this.selected != 'All Types' && this.owner != 'Anyone' && this.started) {
-                this.inputValue = this.inputValue + "type: " + this.selected + " owner:" + this.owner + " is:started " + this.key_words;
-            } else if (this.selected != 'All Types' && this.owner != 'Anyone') {
-                this.inputValue = this.inputValue + "type: " + this.selected + " owner:" + this.owner + " " + this.key_words;
-            } else if (this.selected != 'All Types') {
-                this.inputValue = this.inputValue + "type: " + this.selected + " " + this.key_words;
+            if (this.inputValue != '') {
+                this.key_words = this.inputValue;
             } else {
-                this.inputValue = this.inputValue + this.key_words;
+                this.inputValue = '';
+                if (this.selected != 'All Types' && this.owner != 'Anyone' && this.started && this.in_trash) {
+                    this.inputValue = this.inputValue + "type: " + this.selected + " owner:" + this.owner + " is:started is:in trash " + this.key_words;
+                } else if (this.selected != 'All Types' && this.owner != 'Anyone' && this.started) {
+                    this.inputValue = this.inputValue + "type: " + this.selected + " owner:" + this.owner + " is:started " + this.key_words;
+                } else if (this.selected != 'All Types' && this.owner != 'Anyone') {
+                    this.inputValue = this.inputValue + "type: " + this.selected + " owner:" + this.owner + " " + this.key_words;
+                } else if (this.selected != 'All Types') {
+                    this.inputValue = this.inputValue + "type: " + this.selected + " " + this.key_words;
+                } else {
+                    this.inputValue = this.inputValue + this.key_words;
+                }
+            }
+        },
+        inputValue: function () {
+            console.log("DEBUG::: input value: ", this.inputValue);
+            if (this.inputValue.length > 0) {
+                if (this.inputValue.includes('type:pages'.toLowerCase())) {
+                    console.log("DEBUG::: type:pages");
+                    this.selected = 'Pages';
+                } else if (this.inputValue.includes('type:sites'.toLowerCase())) {
+                    this.selected = 'Sites';
+                    console.log("DEBUG::: type:sites");
+                }else if (this.inputValue.includes('type:all types'.toLowerCase())) {
+                    this.selected = 'All Types';
+                    console.log("DEBUG::: type:All types");
+                }
+                 else if (this.inputValue.includes('owner:owner by me'.toLowerCase())) {
+                    this.owner = 'Owner by me';
+                    this.specific_person = false;
+                    this.person_default = 'Select person';
+                    console.log("DEBUG::: owner by me");
+                } else if (this.inputValue.includes('owner:not owner by me'.toLowerCase())) {
+                    this.owner = 'Not owner by me';
+                    this.specific_person = false;
+                    this.person_default = 'Select person';
+                    console.log("DEBUG::: not owner by me");
+                } else if (this.inputValue.includes('owner:admin'.toLowerCase())) {
+                    this.owner = 'Specific person';
+                    this.person_default = 'admin';
+                    this.specific_person = true;
+                    console.log("DEBUG::: owner admin");
+                } else if (this.inputValue.includes('owner:designer'.toLowerCase())) {
+                    this.owner = 'Specific person';
+                    this.person_default = 'designer';
+                    this.specific_person = true;
+                    console.log("DEBUG::: owner designer");
+                } else if (this.inputValue.includes('owner:editor'.toLowerCase())) {
+                    this.owner = 'Specific person';
+                    this.person_default = 'editor';
+                    this.specific_person = true;
+                    console.log("DEBUG::: owner editor");
+                } else if (this.inputValue.includes('owner:sysadmin'.toLowerCase())) {
+                    this.owner = 'Specific person';
+                    this.person_default = 'sysadmin';
+                    this.specific_person = true;
+                    console.log("DEBUG::: owner sysadmin");
+                }else{
+                    this.key_words = this.inputValue;
+                }
             }
         }
     },

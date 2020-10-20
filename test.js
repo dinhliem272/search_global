@@ -1,4 +1,4 @@
-<template>
+/* <template>
 <div class="dropdown">
     <div @click="closeDropdown()" v-if="allRecordSites == true || allRecordPages == true ||  magic_flag == true || advancedSearch == true || result_search == true" style="position:absolute;top:0.8rem;right:-10px;cursor: pointer;z-index:1">
         <i class="fa fa-times"></i>
@@ -172,7 +172,6 @@ export default {
             //     this.inputValue = this.inputValue + this.key_words;
             // }
             // }
-            this.inputValue = this.key_words;
         },
         inputValue: function () {
             if (this.inputValue.length > 0) {
@@ -215,23 +214,21 @@ export default {
                         this.starred = true;
                     } else if (spl[i].toLowerCase() == 'is:trashed') {
                         this.trashed = true;
-                    } else if (spl[i].toLowerCase() == 'modified:today') {
+                    }else if (spl[i].toLowerCase() == 'modified:today') {
                         this.date_modified = 'modified:today';
-                    } else if (spl[i].toLowerCase() == 'modified:yesterday') {
+                    }else if (spl[i].toLowerCase() == 'modified:yesterday') {
                         this.date_modified = 'modified:yesterday';
-                    } else if (spl[i].toLowerCase() == 'modified:last7days') {
+                    }else if (spl[i].toLowerCase() == 'modified:last7days') {
                         this.date_modified = 'modified:last7days';
-                    } else if (spl[i].toLowerCase() == 'modified:last30days') {
+                    }else if (spl[i].toLowerCase() == 'modified:last30days') {
                         this.date_modified = 'modified:last30days';
-                    } else if (spl[i].toLowerCase() == 'modified:last90days') {
+                    }else if (spl[i].toLowerCase() == 'modified:last90days') {
                         this.date_modified = 'modified:last90days';
-                    } else if (spl[i].toLowerCase().includes('title')) {
+                    }else if (spl[i].toLowerCase().includes('title')) {
                         this.title = spl[i].substring(6);
-                    } else {
-                        
-                        if(this.key_words){
-                            this.key_words = '';
-                        }
+                    }                    
+                    else {
+                        this.key_words = '';
                         this.key_words = spl[i];
                     }
                 }
@@ -242,7 +239,7 @@ export default {
         return {
             inputValue: '',
             key_words: '',
-            title: '',
+            title:'',
             person_default: 'Select person',
             selected: 'All Types',
             owner: 'Anyone',
@@ -438,31 +435,39 @@ export default {
             this.response_search = [];
         },
         typeChange(e) {
-            if (e.target.value.toLowerCase() != 'all types') {
-                if (!this.selected == "") {
-                    this.inputValue = ""
+            // if (e.target.value != 'All Types') {
+            //     this.inputValue = " " + this.inputValue + 'type:' + this.selected;
+            // }
+            // this.selected =  e.target.value.toLowerCase();
+            // if(this.inputValue.includes("type:")){
+            //     this.inputValue.replace("type:"," ");
+            //     console.log("OK");
+            // }
+            if(e.target.value.toLowerCase() != 'all types'){
+                if(!this.selected == ""){
+                    this.inputValue = ""   
                 }
-                this.inputValue = this.inputValue + "type:" + e.target.value.toLowerCase() + " ";
+                this.inputValue = this.inputValue +"type:"+e.target.value.toLowerCase()+" ";
             }
-
+            
         },
         ownerChange(e) {
             if (e.target.value != 'Anyone') {
                 if (e.target.value == 'Specific person') {
                     this.specific_person = true;
-                    this.inputValue = "";
+                    this.inputValue  = "";
                 } else {
-                    if (!this.owner == "") {
+                    if(!this.owner == ""){
                         this.inputValue = ""
                     }
-                    this.inputValue = " " + this.inputValue + this.owner + " ";
+                    this.inputValue = " "+ this.inputValue  + this.owner+" ";
                     this.specific_person = false;
                 }
             }
         },
         personChange(e) {
             if (e.target.value != 'Select person') {
-                if (!this.person_default == "") {
+                if(!this.person_default == ""){
                     this.inputValue = "";
                 }
                 this.inputValue = this.inputValue + " owner:" + this.person_default;
@@ -470,41 +475,80 @@ export default {
         },
         closeChoosePerson() {
             this.person_default = 'Select person';
-            this.owner = "Anyone";
-            this.inputValue = "";
-            this.specific_person = false;
+            // if (this.selected != 'All Types' && this.started && this.in_trash) {
+            //     this.inputValue = '';
+            //     this.inputValue = " " + this.inputValue + 'type:' + this.selected;
+            // } else {
+            //     this.inputValue = "";
+            //     if (this.started) {
+            //         this.inputValue = "";
+            //         this.inputValue = " " + this.inputValue + 'type:' + this.selected + " is:started ";
+            //     } else if (this.in_trash) {
+            //         this.inputValue = '';
+            //         this.inputValue = " " + this.inputValue + 'type:' + this.selected + " is:in trash ";
+            //     }
+            // }
         },
         filterStarted() {
-            if (this.starred) {
-                this.inputValue = this.inputValue +  ' is:starred';
-            } else {
-                this.inputValue = "";
-            }
-            console.log("DEBUG::: input: ", this.inputValue);
+            // if (this.started) {
+            //     this.inputValue = this.inputValue + " is:" + 'started '
+            // } else {
+            //     if (this.selected != 'All Types' && this.owner != 'Anyone' && this.in_trash) {
+            //         this.inputValue = '';
+            //         this.inputValue = this.inputValue + "type:" + this.selected + " owner:" + this.owner + " is:in trash ";
+            //     } else if (this.selected == 'All Types') {
+            //         this.inputValue = '';
+            //         this.inputValue = this.inputValue + " owner:" + this.owner;
+            //     } else if (this.owner == 'Anyone') {
+            //         this.inputValue = '';
+            //         this.inputValue = this.inputValue + "type:" + this.selected;
+            //     } else {
+            //         this.inputValue = '';
+            //         if (this.in_trash) {
+            //             this.inputValue = this.inputValue + "type:" + this.selected + " owner:" + this.owner + " is:in trash ";
+            //         }
+            //         this.inputValue = this.inputValue + "type:" + this.selected + " owner:" + this.owner;
+            //     }
+            // }
         },
         filterInTrash() {
-            if (this.trashed) {
-                this.inputValue = this.inputValue + ' is:trashed';
-            } else {
-                this.inputValue = "";
-            }
+            // if (this.in_trash) {
+            //     this.inputValue = this.inputValue + " is:" + 'in trash '
+            // } else {
+            //     if (this.selected != 'All Types' && this.owner != 'Anyone' && this.started) {
+            //         this.inputValue = '';
+            //         this.inputValue = this.inputValue + "type:" + this.selected + " owner:" + this.owner + " is: started";
+            //     } else if (this.selected == 'All Types') {
+            //         this.inputValue = '';
+            //         this.inputValue = this.inputValue + " owner:" + this.owner;
+            //     } else if (this.owner == 'Anyone') {
+            //         this.inputValue = '';
+            //         this.inputValue = this.inputValue + "type:" + this.selected;
+            //     } else {
+            //         this.inputValue = '';
+            //         if (this.started) {
+            //             this.inputValue = this.inputValue + "type:" + this.selected + " owner:" + this.owner + " is: started";
+            //         }
+            //         this.inputValue = this.inputValue + "type:" + this.selected + " owner:" + this.owner
+            //     }
+            // }
         },
         actionSearch() {
             this.response_search = [];
-            console.log("DEBUG::: selected: ",this.selected);
-            if (this.selected.toLowerCase() == 'sites' || this.selected.toLowerCase() == 'site') {
-                var sites = this.recordsSites.filter(d => d.name.toLowerCase() === this.key_words.toLowerCase());
-                this.response_search = sites;
-            } else if (this.selected.toLowerCase() == 'pages' || this.selected.toLowerCase() == 'page') {
-                var pages = this.recordsPages.filter(d => d.name.toLowerCase() === this.key_words.toLowerCase());
-                this.response_search = pages;
-            } else {
-                var rs_sites = this.recordsSites.filter(d => d.name.toLowerCase() === this.key_words.toLowerCase());
-                var rs_pages = this.recordsPages.filter(d => d.name.toLowerCase() === this.key_words.toLowerCase());
-                this.response_search = [].concat.apply(rs_sites, rs_pages);
-            }
-            this.advancedSearch = false;
-            this.result_search = true;
+            console.log("DEBUG::: seleted: ",this.selected);
+            // if (this.selected == 'Sites') {
+            //     var sites = this.recordsSites.filter(d => d.name.toLowerCase() === this.key_words.toLowerCase());
+            //     this.response_search = sites;
+            // } else if (this.selected == 'Pages') {
+            //     var pages = this.recordsPages.filter(d => d.name.toLowerCase() === this.key_words.toLowerCase());
+            //     this.response_search = pages;
+            // } else {
+            //     var rs_sites = this.recordsSites.filter(d => d.name.toLowerCase() === this.key_words.toLowerCase());
+            //     var rs_pages = this.recordsPages.filter(d => d.name.toLowerCase() === this.key_words.toLowerCase());
+            //     this.response_search = [].concat.apply(rs_sites, rs_pages);
+            // }
+            // this.advancedSearch = false;
+            // this.result_search = true;
         }
 
     },
@@ -611,4 +655,4 @@ export default {
     color: white;
     font-weight: bold;
 }
-</style>
+</style> */

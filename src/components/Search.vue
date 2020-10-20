@@ -4,7 +4,7 @@
         <i class="fa fa-times"></i>
     </div>
     <!-- @focus="focusSearch()" -->
-    <input id="myCheck" ref="myCheck" v-model.trim="inputValue" @focus="focusSearch()" class="dropdown-input" type="text" placeholder="Search" />
+    <input @keyup.enter="actionSearch()" id="myCheck" ref="myCheck" v-model.trim="inputValue" @focus="focusSearch()" class="dropdown-input" type="text" placeholder="Search" />
     <!-- all type -->
     <div v-if="magic_flag" class="dropdown-content">
         <div v-for="type in typeSearch" :key="type.id">
